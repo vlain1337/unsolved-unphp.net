@@ -1,0 +1,560 @@
+<?php
+error_reporting(0);
+system("clear");
+include("cfg.php");
+
+//color
+$res="\033[0m";
+$hitam="\033[0;30m";
+$abu2="\033[1;30m";
+$putih="\033[0;37m";
+$putih2="\033[1;37m";
+$red="\033[0;31m";
+$red2="\033[1;31m";
+$green="\033[0;32m";
+$green2="\033[1;32m";
+$yellow="\033[0;33m";
+$yellow2="\033[1;33m";
+$blue="\033[0;34m";
+$blue2="\033[ 1;34m";
+$purple="\033[0;35m";
+$purple2="\033[1;35m";
+$lblue="\033[0;36m";
+$lblue2="\033[1;36m";
+
+
+//color
+$hijau = "\33[0;32m";
+$hijau1 = "\33[32;1m";
+$hijau2 = "\e[1;32m";
+$biru = "\33[0;36m";
+$biru1 = "\33[36;1m";
+$biru2 = "\e[1;34m";
+$merah = "\33[31;1m";
+$merah2 = "\e[1;31m";
+$putih2 = "\33[37;1m";
+$putih1 = "\e[1;37m";
+$hitam = "\33[30;1m";
+$kuning = "\33[33;1m";
+$kuning1 = "\33[1;33m";
+$kuning2 = "\e[1;33m";
+$cyan = "\e[0;36m";
+$cyan1 = "\e[1;36m";
+$ungu = "\e[0;35m";
+$ungu2 = "\e[1;35m";
+$abu =	"\e[0;33m";
+$abu1 = "\e[0;37m";
+$abu2 = "\e[1;30m";
+$res="\033[7m";
+$hitam="\033[0;30m";
+$abu2="\033[1;30m";
+$putih="\033[0;37m";
+$putih2="\033[1;37m";
+$red="\033[0;31m";
+$red2="\033[1;31m";
+$green="\033[0;32m";
+$green2="\033[1;32m";
+$yellow="\033[0;33m";
+$yellow2="\033[1;33m";
+$blue="\033[0;34m";
+$blue2="\033[1;34m";
+$purple="\033[0;35m";
+$purple2="\033[1;35m";
+$lblue="\033[0;36m";
+$lblue2="\033[1;36m";
+
+$Color_Off="\033[0m";      
+$Black="\033[0;30m";      
+$Red= "\033[0;31m";         
+$Green="\033[0;32m";      
+$Yellow="\033[0;33m";       
+$Blue="\033[0;34m";         
+$Purple="\033[0;35m";      
+$Cyan="\033[0;36m";       
+$White="\033[0;37m";       
+$IYellow="\033[0;93m";      
+$IRed="\033[0;91m";         
+$BIRed="\033[1;91m";   
+$On_Cyan="\033[46m";
+$BIWhite="\033[1;97m";     
+$BIBlue="\033[1;94m";      
+$BICyan="\033[1;96m";       
+$BIBlack="\033[1;90m";     
+$BBlack="\033[1;30m";
+$IBlack="\033[0;90m";  
+$On_White="\033[47m";     
+$BIBlue="\033[1;94m";
+$On_IRed="\033[0;101m";
+$On_Red="\033[41m";   
+$On_Blue="\033[44m";
+$On_Green="\033[42m";  
+$IGreen="\033[0;92m";   
+$IYellow="\033[0;93m";
+$Icyan="\033[0;96m";
+//red to yellow shade ↓
+
+$r3="\033[01;38;5;196m";
+$r2="\033[01;38;5;202m";
+$r1="\033[01;38;5;208m";
+$ry="\033[01;38;5;214m";
+$y1="\033[01;38;5;220m";
+$y2="\033[01;38;5;226m";
+$y3="\033[01;38;5;228m";
+/* END COLOR */
+
+
+
+
+
+
+
+
+function url($url){
+$headers = array();
+$headers[] = "Mozilla/5.0 (Linux; Android 10; Redmi Note 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Mobile Safari/537.36";
+$ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      $res = curl_exec($ch);
+return $res;
+}
+
+
+error_reporting(0);
+system("clear");
+
+$SC = "1";
+
+$res = url("https://controlc.com/5e036e27");
+//echo $res."\n";
+//exit;
+$link1 = explode('Link: ',$res);
+$link = explode(' ',$link1[1]);
+//echo $link[0]."\n";
+$pw1 = explode('[tpcolor=#FF0000]',$res);
+$pw = explode('[',$pw1[1]);
+//echo $pass[0]."\n";
+
+$pass = $pw[0];
+//$pass="A";
+$read = file_get_contents("key.txt");
+system('clear');
+if ($pass=="off"){
+$o = "\033[1;32m[\033[1;31mOFFLINE\033[1;32m]";
+}else{
+$o = "\033[1;32m[ONLINE]";
+}
+if ($pass=="update"){
+$o = "\033[1;32m[\033[1;91mUpdate\033[1;92m]";
+}
+
+$res = url("https://controlc.com/5e036e27");
+//echo $res."\n";
+//exit;
+$lg1 = explode('Login: ',$res);
+$login = explode('/ajax_auth',$lg1[1]);
+//echo $login[0]."\n";
+//$pw1 = explode('[tpcolor=#FF0000]',$res);
+//$pw = explode('[',$pw1[1]);
+//echo $pass[0]."\n";
+echo $baner = "
+$lcyan =================================================================
+$lGreen oooooooooo  ooooooooooo ooooo  oooo  ooooooo  ooooo    ooooooooooo 
+$lGreen  888    888  888    88   888    88 o888   888o 888     88  888  88 
+$lGreen  888oooo88   888ooo8      888  88  888     888 888         888     
+$IYellow  888  88o    888    oo     88888   888o   o888 888      o  888     
+$IYellow o888o  88o8 o888ooo8888     888      88ooo88  o888ooooo88 o888o
+$lcyan =================================================================\n";
+                                                                   
+      echo "\033[1;96m• WELCOME BOSSQUE, HOW ARE YOU THIS TODAY ?\n";
+      echo "\033[1;96m• SEBELUM LANJUT MASUKKAN PASSWORD DULU YAK\n\n";
+      
+
+if ($link[0]==""){
+echo " \033[1;91mKONEKSI TERPUTUS, SILAHKAN CEK KONEKSIMU\n";
+echo " \033[3;91mConnection Lost, Please Check Your Connection\n";
+exit;
+}
+
+if ($pass == 'update'){
+      echo "\033[1;92m ◼ \033[1;91mSCRIPT Anda Sudah Tidak Terhubung ke Server \033[1;92mMR.R (UPDATE !!!) \n";
+      echo "\033[1;92m ◼ \033[1;97mSilahkan Copy Paste Link \n\n";
+      echo "\033[1;92m ◼ \033[1;97mLink Script Versi Update \033[1;92m$link[0]\n\n";
+      exit;
+}
+
+
+if ($pass == 'off'){
+
+      echo "\033[1;92m ◼ \033[1;91mSCRIPT SEDANG OFFLINE \033[1;97matau \033[1;91mMAINTENANCE \n";
+      exit;
+}else{
+if($read == $pass){
+      echo "\033[1;91m ▶ \033[1;92mUPLOADING PASSWORD \r";
+      sleep(3);
+      echo "\033[1;91m ▶ \033[1;92mREDIRECTED TO YOUTUBE...\r";
+      sleep(5);
+      system("xdg-open https://m.youtube.com/c/mrrevolt");
+        
+      sleep(1);
+}
+elseif($read != $pass){
+      
+      $save = fopen("key.txt", "w");
+echo "\033[1;91m•\033[1;93m Link Password => \033[1;92m $link[0]\n";
+echo "\033[1;91m•\033[1;93m Tempel Password Disini Boss => \033[1;92m";
+$p = trim(fgets(STDIN));
+if ($p==""){
+exit;
+}
+echo "\n \033[1;96mLoading \033[1;31m▪\r";
+sleep(1);
+echo "\033[1;96m Loading \033[1;31m▪ \033[1;31m▪\r";
+sleep(1);
+echo "\033[1;96m Loading \033[1;31m▪ \033[1;31m▪ \033[1;31m▪ \r";
+sleep(1);
+if($pass == $p){
+        fwrite($save, $p);
+        echo "\033[1;91m ◼ \033[1;92mCHECKING PASSWORD            \r";
+sleep(3);
+        echo "\033[1;91m ◼ \033[1;92mPASSWORD CORRECT ✅            \r";
+sleep(2);
+echo "\033[1;91m ◼ \033[1;92mJANGAN LUPA SUBREK            \r";
+        system("xdg-open https://m.youtube.com/c/mrrevolt");
+        fclose($save);
+        sleep(5);
+        
+        }else{
+        echo "\033[1;92m ◼ \033[1;91mPASSWORD SALAH !! TRY AGAIN\n";
+        exit;
+        }
+        }
+}
+sleep(1);
+echo "\033[1;97m💻️ PRESS \033[1;32mENTER \033[1;37mFOR CONTINUE ⌨️ ⌨️ ⌨️ \033[1;92m";
+$kkk = trim(fgets(STDIN));
+system("clear");
+
+function ban(){
+$SC=1;
+$rev="MR.REVOLT";
+$yt="www.youtube.com/c/MrRevolt";
+$SC1="VIVO-COIN";
+$SC = $purple2."1.0";
+$SUPP = $cyan."God Almighty and All Who Support Me";
+$sawer = "https://saweria.co/MrRevolt";
+date_default_timezone_set("Asia/Jakarta");
+system("clear");
+echo "\033[1;92m";
+system("toilet -f wideterm -F border ' P U R E - B T C  V . 2 ( ONLINE )'");
+echo $baner1 = "\033[1;92m oooooooooo  ooooooooooo ooooo  oooo  ooooooo  ooooo    ooooooooooo 
+\033[1;92m  888    888  888    88   888    88 o888   888o 888     88  888  88 
+\033[1;92m  888oooo88   888ooo8      888  88  888     888 888         888     
+\033[1;96m  888  88o    888    oo     88888   888o   o888 888      o  888     
+\033[1;96m o888o  88o8 o888ooo8888     888      88ooo88  o888ooooo88 o888o     
+\033[1;93m=================================================================== 
+\033[1;37m •THANKS TO       :\033[1;91m $SUPP
+\033[1;37m •CREATOR         :\033[1;92m $rev
+\033[1;37m •Link YT         :\033[1;93m $yt
+\033[1;37m •Donation        :\033[1;93m $sawer
+\033[1;93m===================================================================\n";
+}
+
+function an($str){ 
+    $arr = str_split($str); 
+    foreach ($arr as $az){ 
+    echo $az; 
+    usleep(19999); 
+    }
+    
+}
+
+
+
+
+function imgscan($asu){
+$clomang=base64_encode(file_get_contents($asu));
+$yasuo=["content-type: application/json"];
+$yi='{
+  "requests": [
+    {
+      "image": {
+        "content": "'.$clomang.'"
+      },
+      "features": [
+        {
+          "type": "TEXT_DETECTION"
+        }
+      ]
+    }
+  ]
+}';
+$mboh="https://vision.googleapis.com/v1/images:annotate?key=AIzaSyC3y-Em42htSB8UEZPqptJ78rlvL58_h6Y";
+$karepmu=curl($mboh,$yasuo,$yi);
+$bapakmu=strpos($karepmu,'Enter the following:\n');
+if($bapakmu){
+$bapakmu=substr($karepmu,$bapakmu);
+$bapakmu=str_replace('Enter the following:\n','',$bapakmu);
+$bapakmu=substr($bapakmu,0,strpos($bapakmu,'"'));
+$bapakmu=str_replace('\n','',$bapakmu);
+$bapakmu= preg_replace("/[^a-zA-Z]/", "", $bapakmu);}
+if(strlen($bapakmu) > 25){}else{return $bapakmu;} }
+
+function curl($url, $ua, $data = null){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_FOLLOWLOCATION => 1,
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_SSL_VERIFYPEER => 1,
+            CURLOPT_HTTPHEADER => $ua
+        ));
+        if($data){
+            curl_setopt_array($curl, array(
+                CURLOPT_POSTFIELDS => $data,
+                CURLOPT_POST => 1
+            ));
+       }
+        $result = curl_exec($curl);
+        curl_close($curl);
+	return $result;
+}
+
+
+function head($UserAgent, $Cookie){
+$ua = [
+    'User-Agent: '.$UserAgent,
+    'Cookie: '.$Cookie
+];
+return $ua;
+}
+
+
+
+system("clear");
+ban();
+
+function solvemedia($url,$odading){
+$odading = array();
+$odading[]="Host: api-secure.solvemedia.com";
+$odading[]="user-agent: ".$UserAgent;
+$odading[]="accept: */*";
+$odading[]="Referer: https://purebtc.xyz/";
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $odading);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
+$r = curl_exec($ch);
+return $r;
+}
+
+//DASHBOARD
+function timer($tmr){
+    $hijaut = "\e[1;32m";
+    $meraht = "\e[1;31m";
+    $kuningt = "\e[1;33m";
+    $putiht = "\e[1;37m";
+    $birut = "\e[1;34m";
+    $ungut = "\e[1;35m";
+    $birumudat = "\e[1;36m";
+    $warna = [$ungut,$birumudat,$hijaut,$ungut,$birut];
+    $timr=time()+$tmr;
+    while(true):
+    echo "\r                           \r";
+    $res = $timr-time();
+    if($res < 1){
+    break;
+    }
+    echo $putiht."[".$warna[array_rand($warna)]."•••".$putiht."] ".gmdate("H:i:s", $res);
+    sleep(1);
+    endwhile;
+    }
+
+
+
+
+//function timer($tmr){$timr=time()+$tmr; while(true): echo "\r                         \r"; $res=$timr-time(); if($res < 1){break;} 
+//echo $putih2."Sabar Bossque ".$green2.date('i:s',$res).$putih2." Ritual Dulu";
+//sleep(1); 
+//endwhile;}
+
+
+$url = "https://purebtc.xyz/dashboard";
+$dashboard = curl($url, head($UserAgent, $Cookie));
+//$wel = explode('</h5>',explode('<h5 class="text-primary">',$dashboard)[1])[0];
+$name = explode('</span>',explode('<span class="d-none d-xl-inline-block ml-1" key="t-henry">',$dashboard)[1])[0];
+//echo $yellow2.$wel."\n";
+an($yellow2."Hello Bossque ".$lblue2.$name.$and."\n\n");
+an($purple2."SELAMAT DATANG ".$putih2."DI ".$blue2."INDO".$yellow2."MA".$red."RET".$and."\n");
+
+
+$account = explode('</p>',explode('<p class="text-muted font-weight-medium">',$dashboard)[1])[0];
+$balance = explode('</h4>',explode('<h4 class="mb-0">',$dashboard)[1])[0];
+//echo $green2."💵 Your ".$green2."$account".$putih2." : ".$green2.$balance."\n";
+if($balance <= null ){
+
+echo$merah2."⚡ Your Cookie Expired 😣 \n";
+
+sleep(1);
+
+exit;
+
+}else{
+
+}
+$en = explode('</p>',explode('<p class="text-muted font-weight-medium">',$dashboard)[2])[0];
+$tot = explode('</h4>',explode('<h4 class="mb-0">',$dashboard)[2])[0];
+//echo $yellow2."⚡ Your ".$yellow2."$en".$putih2."  : ".$yellow2.$tot." energy\n";
+an($lblue2."~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".$and."\n");
+an($y3."Ada Dua Metode Yang Dapat Kamu Gunakan: ".$and."\n");
+an($yellow2."       [".$green2."1".$yellow2."] ".$putih2."BYPASS METHODE".$and."\n");
+an($yellow2."       [".$green2."2".$yellow2."] ".$putih2."AUTO   FAUCET".$and."\n");
+an($ry."Choose Your Number ".$putih2.": ".$and.$green2);
+$kontol=trim(fgets(STDIN));
+system("clear");
+ban();
+$url = "https://purebtc.xyz/dashboard";
+$dashboard = curl($url, head($UserAgent, $Cookie));
+$wel = explode('</h5>',explode('<h5 class="text-primary">',$dashboard)[1])[0];
+$name = explode('</span>',explode('<span class="d-none d-xl-inline-block ml-1" key="t-henry">',$dashboard)[1])[0];
+an($yellow2.$wel.$and."\n\n");
+
+an($putih2."👤 Account Login As  ".$putih2.": ".$r1.$name."!".$and."\n");
+$account = explode('</p>',explode('<p class="text-muted font-weight-medium">',$dashboard)[1])[0];
+$balance = explode('</h4>',explode('<h4 class="mb-0">',$dashboard)[1])[0];
+an($green2."💵".$putih2." Your ".$putih2."$account".$putih2."      : ".$green2."$balance".$and."\n");
+
+$en = explode('</p>',explode('<p class="text-muted font-weight-medium">',$dashboard)[2])[0];
+$tot = explode('</h4>',explode('<h4 class="mb-0">',$dashboard)[2])[0];
+an($yellow."⚡".$putih2." Your ".$putih2."$en".$putih2."       : ".$yellow2."$tot Energy".$and."\n");
+
+an($lblue2."~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".$and."\n");
+if($kontol==1){
+an($green2."You Have Selected".$yellow2." [".$green2."1".$yellow2."] ".$green2." => Bypass Method !!!".$and."\n");
+an($green2."            [".$yellow2."1".$green2."] ".$yellow2."MANUAL   FAUCET".$and."\n");
+an($green2."            [".$yellow2."2".$green2."] ".$lblue2."BYPASS   PTC".$and."\n");
+an($ry."Choose Your Number Again ".$putih2.": ".$green2."$and");
+$memek=trim(fgets(STDIN));
+echo "\n";}
+if($memek==1){
+while(true){
+$url = "https://purebtc.xyz/faucet";
+$faucet = curl($url, head($UserAgent, $Cookie));
+$anti1 = explode('\"',explode('\"#\" rel=\"',$faucet)[1])[0];
+$anti2 = explode('\"',explode('\"#\" rel=\"',$faucet)[2])[0];
+$anti3 = explode('\"',explode('\"#\" rel=\"',$faucet)[3])[0];
+$csrf = explode('">',explode('<input type="hidden" name="csrf_token_name" id="token" value="',$faucet)[1])[0];
+$token = explode('">',explode('<input type="hidden" name="token" value="',$faucet)[1])[0];
+$url = $Url_Solve;
+$papi = solvemedia($url,$odading);
+$cap = explode('challenge":"', $papi)[1];
+$ca = explode('"', $cap)[0];
+ $url = "https://api-secure.solvemedia.com/papi/media?c=".$ca.";w=300;h=150;fg=000000;bg=f8f8f8";
+ $mediac = solvemedia($url,$odading);
+file_put_contents("img.png",$mediac);
+$ci=imgscan("img.png");
+
+$url = "https://purebtc.xyz/faucet/verify";
+$data = "antibotlinks=+".$anti1."+".$anti2."+".$anti3."&csrf_token_name=".$csrf."&token=".$token."&captcha=solvemedia&g-recaptcha-response=&adcopy_response=".$ci."&adcopy_challenge=".$ca;
+$claim = curl($url, head($UserAgent, $Cookie), $data);
+$reward = explode("to your balance",explode("Good job!', '",$claim)[1])[0];
+an($green2."Anti Bot Link ".$putih2.": ".$yellow2."$anti1-".$yellow2."$anti2-".$yellow2."$anti3".$and);
+sleep(2);
+echo "\r                                 \r";
+if($reward){
+an($lblue2."[".$green2."✅".$lblue2."] ".$green2."$reward".$and."\n");
+echo "\r                                 \r";
+
+$url = "https://purebtc.xyz/dashboard";
+$update = curl($url, head($UserAgent, $Cookie));
+$balance = explode('</h4>',explode('<h4 class="mb-0">',$update)[1])[0];
+ an($lblue2."[".$green2."💵".$lblue2."] ".$putih2."Your Balance Now".$putih2." : ".$green2."$balance".$and."\n");
+an($lblue2."~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".$and."\n");
+timer(60);
+}else{
+  an($r3."Bypass Gagal ".$green2."[ Captcha Buriq ]".$and);
+  sleep(2);
+echo "\r                                 \r";
+
+}}}elseif($kontol==2){
+echo $green2."You Have Selected".$yellow2." [2]".$green2." => Auto Faucet !!!\n\n";
+if($tot <= 0){
+echo$merah2."⚡ Energymu Habis 😣 Silahkan Main Shortlink Lagi Gih 😘\n";
+echo$White."⚡ Your Energy Is Running Out 😣 Please Play The Short Link Again 😘\n\n";
+sleep(1);
+exit;
+}else{
+}
+
+
+while(true){
+$url = "https://purebtc.xyz/auto";
+$auto = curl($url, head($UserAgent, $Cookie));
+$token = explode('"',explode('<input type="hidden" name="token" value="',$auto)[1])[0];
+$tm = explode(',',explode('let timer = ',$auto)[1])[0];
+timer($tm);
+$url = "https://purebtc.xyz/auto/verify";
+$data = "token=$token";
+$claim = curl($url, head($UserAgent, $Cookie), $data);
+$reward = explode("'",explode("Good job!', '",$claim)[1])[0];
+
+an($lblue2."[".$green2."✅".$lblue2."] ".$green2."$reward".$and."\n");
+echo "\r                                 \r";
+
+$url = "https://purebtc.xyz/dashboard";
+$update = curl($url, head($UserAgent, $Cookie));
+$balance = explode('</h4>',explode('<h4 class="mb-0">',$update)[1])[0];
+ an($lblue2."[".$green2."💵".$lblue2."] ".$putih2."Your Balance Now".$putih2."   : ".$green2."$balance".$and."\n");
+$tot = explode('</h4>',explode('<h4 class="mb-0">',$update)[2])[0];
+echo $lblue2."[".$yellow2."⚡".$lblue2."] ".$putih2."Your $en Now".$putih2."    : ".$yellow2.$tot." $en\n";
+an($lblue2."~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".$and."\n");
+}
+}elseif($memek==2){
+while(true){
+$url = "https://purebtc.xyz/ptc";
+$ptc = curl($url, head($UserAgent, $Cookie));
+$id = explode("'",explode("https://purebtc.xyz/ptc/view/",$ptc)[1])[0];
+if($id <= null){
+	echo $yellow2."PTC NYA ABIS BOSS 🥵\n";
+exit;
+}
+	$time = explode(' seconds</span>',explode('<span><i class="fas fa-stopwatch"></i>: ',$ptc)[1])[0];
+
+$url = "https://purebtc.xyz/ptc/view/".$id;
+$view = curl($url, head($UserAgent, $Cookie));
+	$csrf = explode('">',explode('<input type="hidden" name="csrf_token_name" value="',$view)[1])[0];
+        $token = explode('">',explode('<input type="hidden" name="token" value="',$view)[1])[0];
+timer($time);
+$url = $Url_Solve;
+$papi = solvemedia($url,$odading);
+        $cap = explode('challenge":"', $papi)[1];
+        $ca = explode('"', $cap)[0];
+$url = "https://api-secure.solvemedia.com/papi/media?c=".$ca.";w=300;h=150;fg=000000;bg=f8f8f8";
+$mediac = solvemedia($url,$odading);
+        file_put_contents("ptc.png",$mediac);
+	$ci=imgscan("ptc.png");
+
+$url = "https://purebtc.xyz/ptc/verify/".$id;
+$data = "captcha=solvemedia&g-recaptcha-response=&adcopy_response=".$ci."&adcopy_challenge=".$ca."&csrf_token_name=".$csrf."&token=".$token;
+$claim = curl($url, head($UserAgent, $Cookie), $data);
+	$reward = explode("'",explode("Good job!', '",$claim)[1])[0];
+if($reward){
+an($lblue2."[".$green2."✅".$lblue2."] ".$green2."$reward".$and."\n");
+echo "\r                                 \r";
+
+$url = "https://purebtc.xyz/dashboard";
+$update = curl($url, head($UserAgent, $Cookie));
+$balance = explode('</h4>',explode('<h4 class="mb-0">',$update)[1])[0];
+ an($lblue2."[".$green2."💵".$lblue2."] ".$putih2."Your Balance Now".$putih2." : ".$green2."$balance".$and."\n");
+an($lblue2."~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".$and."\n");
+}else{
+  an($r3."Bypass Gagal ".$yellow2."[ Capthca Buriq ] ".$and);
+  sleep(1);
+echo "\r                                 \r";
+}}}
+?>
