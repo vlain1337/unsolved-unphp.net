@@ -1,0 +1,83 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 2017/8/6
+ * Time: 11:08
+ */
+
+function kddiCheck($imei)
+{
+    header("content-type:text/html;charset=utf8");
+    $url = 'https://au-cs0.kddi.com/au-support/sui/SUI001W001/SUI0010002BL.do';
+
+
+    $curl = curl_init();
+    $cookie_jar = dirname(__file__) . "/pic.cookie";
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HEADER, 0);
+    curl_setopt($curl, CURLOPT_REFERER, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_COOKIEJAR, $cookie_jar);// 把返回来的cookie信息保存在$cookie_jar文件中
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);//这个是重点。
+    $data = curl_exec($curl);
+    /*echo $data;*/
+    curl_close($curl); //关闭
+
+
+    preg_match('/action="\s*(.*)\s*">/', $data, $str);
+    $result = str_replace('<br>', " ", $str[0]);
+    $result = str_replace("action=\"", "", $result);
+    $actionurl = "https://au-cs0.kddi.com" . str_replace("\">", "", $result);
+    /*echo $actionurl;*/
+    /*    $curl = curl_init();*/
+    $post = "imei=" . $imei;
+
+
+    $curl2 = curl_init();
+    curl_setopt($curl2, CURLOPT_URL, $actionurl);
+    curl_setopt($curl2, CURLOPT_REFERER, $actionurl);
+    curl_setopt($curl2, CURLOPT_HEADER, 0);
+    curl_setopt($curl2, CURLOPT_COOKIE, $cookie_jar);
+    curl_setopt($curl2, CURLOPT_POST, true);
+    curl_setopt($curl2, CURLOPT_POSTFIELDS, $post);
+    curl_setopt($curl2, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl2, CURLOPT_SSL_VERIFYPEER, false);//这个是重点。
+    $data2 = curl_exec($curl2);
+    curl_close($curl2);
+    /*echo $data2;*/
+    preg_match_all('/<tbody>(.*?)<\/tbody>/s', $data2, $matches);
+
+    $result = trim(strip_tags($matches[0][0]));
+
+    $resultjson = array();
+    if ($result != "") {
+        $resultjson["code"] = 0;
+        $pos = strpos($result, "×");
+        if ($pos > 0) {
+            $index="以降に再度お手続きください。";
+            if(strpos($result,"以降に再度お手続きください。")>0){
+                $date = substr($result, strpos($result, $index)-10, 10);
+                $resultjson["result"] = "unlock eligibility:<span style=\"color:orange\">eligible at ".$date."（请于".$date."提交）</span></br>".$result;
+            }
+            else{
+                $resultjson["result"] = "unlock eligibility:<font color=\"ff0000\">not eligible(当前不可解锁)</font><br/>" . $result;
+            }
+
+        } else {
+            $resultjson["result"] = "unlock eligibility:<font color=\"008000\">eligible(当前可解锁)</font><br/>" . $result;
+        }
+    }
+    else {
+        $resultjson["code"] = 1;
+        $resultjson["result"] = " check time must in 8am-20pm gmt+8 and resubmit again (官方接口开放时间为早8点到晚8点请在这个时间段内提交)";
+    }
+
+    return json_encode($resultjson);
+
+
+}
+
+$imei = $_REQUEST['imei'];
+$check = kddiCheck($imei);
+echo $check;?>
