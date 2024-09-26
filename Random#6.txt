@@ -1,0 +1,52 @@
+<?php
+$inputData = file_get_contents('php://input');
+
+if (!empty($inputData)) {
+    $decodedData = base64_decode($inputData);
+    libxml_use_internal_errors(true);
+
+    $dom = new DOMDocument();
+
+    try {
+        $dom->loadXML($decodedData);
+
+        $rootEl = $dom->getElementsByTagName('root');
+        $item1El = $dom->getElementsByTagName('item1');
+        $item2El = $dom->getElementsByTagName('item2');
+
+        if ($rootEl->length > 0 && $item1El->length > 0 && $item2El->length > 0) {
+            libxml_clear_errors();
+            
+            $dom->loadXML($decodedData, LIBXML_NOENT | LIBXML_DTDLOAD);
+            $credentials = simplexml_import_dom($dom);
+
+            $item1 = $item1El->item(0)->nodeValue;
+            $item2 = $item2El->item(0)->nodeValue;
+
+            echo "<pre>As you wish: $item2</pre>";
+        } else {
+            handleData($decodedData);
+        }
+    } catch (Exception $e) {
+        handleData($decodedData);
+    }
+} else {
+    echo "Error: Empty XML or JSON data.";
+}
+
+libxml_clear_errors();
+
+function handleData($decodedData) {
+    $data = json_decode($decodedData, true);
+
+    if (isset($data['root']['item1']) && isset($data['root']['item2'])) {
+        $item1 = $data['root']['item1'];
+        $item2 = $data['root']['item2'];
+
+        echo "<pre>Here ya go:\nNow $item1 has been fined \$$item2.</pre>";
+    } else {
+        echo "Error: Invalid.";
+        echo "<pre>Oh no: " . htmlentities($decodedData) . "</pre>";
+    }
+}
+?>
